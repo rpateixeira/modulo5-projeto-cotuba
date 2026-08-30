@@ -1,6 +1,7 @@
 package br.com.unipds;
 
 import br.com.unipds.cli.LeitorOpcoes;
+import br.com.unipds.service.CotubaService;
 import org.apache.commons.cli.CommandLine;
 
 import java.nio.file.Path;
@@ -20,30 +21,18 @@ public class Main {
 
         LeitorOpcoes leitorOpcoes = new LeitorOpcoes();
 
-        Path diretorioDosMD;
-        FormatoEbook formato;
-        Path arquivoDeSaida;
-        boolean modoVerboso = false;
+        boolean modoVerboso = leitorOpcoes.isModoVerboso();
 
         try {
 
             CommandLine cmd = leitorOpcoes.ler(args);
-            leitorOpcoes.validarInput(cmd);
-            diretorioDosMD=leitorOpcoes.getDiretorioDosMD();
-            formato=leitorOpcoes.getFormato();
-            arquivoDeSaida=leitorOpcoes.getArquivoDeSaida();
-            modoVerboso=leitorOpcoes.isModoVerboso();
-            List<Capitulo> renderizar = RenderizadorMarkdown.renderizar(diretorioDosMD);
-            var ebook = new Ebook();
-            ebook.setCapitulos(renderizar);
-            ebook.setFormato(formato);
-            ebook.setArquivoDeSaida(arquivoDeSaida);
-            ebook.setTitulo("titulo");
-            ebook.setAutor("autor");
-            GeradorArquivos.getInstance(formato).gerar(arquivoDeSaida, ebook);
+            ParametrosCotubaDTO parametrosCotuba = leitorOpcoes.validarInput(cmd);
 
+            modoVerboso=parametrosCotuba.isModoVerboso();
+            CotubaService cotubaService = new CotubaService();
+            cotubaService.executar(parametrosCotuba);
 
-            System.out.println("Arquivo gerado com sucesso: " + arquivoDeSaida);
+            System.out.println("Arquivo gerado com sucesso: " + parametrosCotuba.getArquivoDeSaida());
             return 0;
 
         } catch (Exception ex) {

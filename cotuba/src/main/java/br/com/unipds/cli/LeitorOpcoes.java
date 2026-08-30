@@ -1,6 +1,7 @@
 package br.com.unipds.cli;
 
 import br.com.unipds.FormatoEbook;
+import br.com.unipds.ParametrosCotubaDTO;
 import org.apache.commons.cli.*;
 
 import java.io.File;
@@ -49,7 +50,7 @@ public class LeitorOpcoes {
         return cmd;
     }
 
-    public void validarInput(CommandLine cmd) throws IOException {
+    public ParametrosCotubaDTO validarInput(CommandLine cmd) throws IOException {
         String nomeDoDiretorioDosMD = cmd.getOptionValue("dir");
 
         if (nomeDoDiretorioDosMD != null) {
@@ -85,6 +86,12 @@ public class LeitorOpcoes {
         }
 
         modoVerboso = cmd.hasOption("verbose");
+        var parametrosCotuba = new ParametrosCotubaDTO();
+        parametrosCotuba.setDiretorioDosMD(diretorioDosMD);
+        parametrosCotuba.setFormato(formato);
+        parametrosCotuba.setArquivoDeSaida(arquivoDeSaida);
+        parametrosCotuba.setModoVerboso(modoVerboso);
+        return parametrosCotuba;
     }
 
     public Path getDiretorioDosMD() {

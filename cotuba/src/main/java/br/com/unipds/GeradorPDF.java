@@ -24,8 +24,8 @@ public class GeradorPDF extends GeradorArquivos{
              var pdfDocument = new Document(pdf)) {
 
             //TODO: definir título e autor para o livro
-            pdf.getDocumentInfo().setTitle("Livro");
-            pdf.getDocumentInfo().setAuthor("Autor");
+            pdf.getDocumentInfo().setTitle(ebook.getTitulo());
+            pdf.getDocumentInfo().setAuthor(ebook.getAutor());
 
             ebook.getCapitulos().forEach(arquivoMD -> {
                     try {

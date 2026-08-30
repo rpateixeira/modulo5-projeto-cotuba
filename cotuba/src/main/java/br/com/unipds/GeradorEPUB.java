@@ -19,8 +19,8 @@ public class GeradorEPUB extends GeradorArquivos{
             var epub = new Book();
 
             //TODO: definir título e autor para o livro
-            epub.getMetadata().addTitle("Livro");
-            epub.getMetadata().addAuthor(new Author("Autor"));
+            epub.getMetadata().addTitle(ebook.getTitulo());
+            epub.getMetadata().addAuthor(new Author(ebook.getAutor()));
 
             boolean[] ehPrimeiroCapitulo = {true};
 
