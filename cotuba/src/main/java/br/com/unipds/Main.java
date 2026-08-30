@@ -4,6 +4,7 @@ import br.com.unipds.cli.LeitorOpcoes;
 import org.apache.commons.cli.CommandLine;
 
 import java.nio.file.Path;
+import java.util.List;
 
 public class Main {
 
@@ -20,7 +21,7 @@ public class Main {
         LeitorOpcoes leitorOpcoes = new LeitorOpcoes();
 
         Path diretorioDosMD;
-        String formato;
+        FormatoEbook formato;
         Path arquivoDeSaida;
         boolean modoVerboso = false;
 
@@ -32,7 +33,14 @@ public class Main {
             formato=leitorOpcoes.getFormato();
             arquivoDeSaida=leitorOpcoes.getArquivoDeSaida();
             modoVerboso=leitorOpcoes.isModoVerboso();
-            GeradorArquivos.getInstance(formato).gerar(arquivoDeSaida, diretorioDosMD);
+            List<Capitulo> renderizar = RenderizadorMarkdown.renderizar(diretorioDosMD);
+            var ebook = new Ebook();
+            ebook.setCapitulos(renderizar);
+            ebook.setFormato(formato);
+            ebook.setArquivoDeSaida(arquivoDeSaida);
+            ebook.setTitulo("titulo");
+            ebook.setAutor("autor");
+            GeradorArquivos.getInstance(formato).gerar(arquivoDeSaida, ebook);
 
 
             System.out.println("Arquivo gerado com sucesso: " + arquivoDeSaida);

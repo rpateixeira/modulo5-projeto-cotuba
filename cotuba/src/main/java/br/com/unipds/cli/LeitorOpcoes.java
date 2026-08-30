@@ -1,5 +1,6 @@
 package br.com.unipds.cli;
 
+import br.com.unipds.FormatoEbook;
 import org.apache.commons.cli.*;
 
 import java.io.File;
@@ -12,7 +13,7 @@ import java.util.Comparator;
 public class LeitorOpcoes {
 
     private Path diretorioDosMD;
-    private String formato;
+    private FormatoEbook formato;
     private Path arquivoDeSaida;
     private boolean modoVerboso = false;
 
@@ -64,16 +65,16 @@ public class LeitorOpcoes {
         String nomeDoFormatoDoEbook = cmd.getOptionValue("format");
 
         if (nomeDoFormatoDoEbook != null) {
-            formato = nomeDoFormatoDoEbook.toLowerCase();
+            formato = FormatoEbook.valueOf(nomeDoFormatoDoEbook.toUpperCase());
         } else {
-            formato = "pdf";
+            formato =FormatoEbook.PDF;
         }
 
         String nomeDoArquivoDeSaidaDoEbook = cmd.getOptionValue("output");
         if (nomeDoArquivoDeSaidaDoEbook != null) {
             arquivoDeSaida = Paths.get(nomeDoArquivoDeSaidaDoEbook);
         } else {
-            arquivoDeSaida = Paths.get("book." + formato.toLowerCase());
+            arquivoDeSaida = Paths.get("book." + formato.toString());
         }
         if (Files.isDirectory(arquivoDeSaida)) {
             // deleta arquivos do diretório recursivamente
@@ -94,11 +95,11 @@ public class LeitorOpcoes {
         this.diretorioDosMD = diretorioDosMD;
     }
 
-    public String getFormato() {
+    public FormatoEbook getFormato() {
         return formato;
     }
 
-    public void setFormato(String formato) {
+    public void setFormato(FormatoEbook formato) {
         this.formato = formato;
     }
 

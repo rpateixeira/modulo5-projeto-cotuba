@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 
 public class RenderizadorMarkdown {
 
-    public static List<String> renderizar(Path diretorioMD) {
+    public static List<Capitulo> renderizar(Path diretorioMD) {
 
         PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:**/*.md");
         try (Stream<Path> streamMDs = Files.list(diretorioMD)) {
@@ -33,7 +33,10 @@ public class RenderizadorMarkdown {
             return arquivosMD.stream().map(arquivoMD -> {
                 Parser parser = Parser.builder().build();
                 Node document = null;
+                var capitulo = new Capitulo();
+                capitulo.setArquivoMarkdown(arquivoMD);
                 try {
+                    capitulo.setMarkdown(Files.readString(arquivoMD));
                     document = parser.parseReader(Files.newBufferedReader(arquivoMD));
                     document.accept(new AbstractVisitor() {
                         @Override
@@ -42,6 +45,7 @@ public class RenderizadorMarkdown {
                                 // capítulo
                                 String tituloDoCapitulo = ((Text) heading.getFirstChild()).getLiteral();
                                 // TODO: usar título do capítulo
+                                capitulo.setTitulo(tituloDoCapitulo);
                             } else if (heading.getLevel() == 2) {
                                 // seção
                             } else if (heading.getLevel() == 3) {
@@ -56,7 +60,9 @@ public class RenderizadorMarkdown {
 
                 try {
                     HtmlRenderer renderer = HtmlRenderer.builder().build();
-                    return renderer.render(document);
+                    String render = renderer.render(document);
+                    capitulo.setHtml(render);
+                    return capitulo;
                 } catch (Exception ex) {
                     throw new IllegalStateException("Erro ao renderizar para HTML o arquivo " + arquivoMD, ex);
                 }

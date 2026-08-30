@@ -18,7 +18,7 @@ import java.util.List;
 
 public class GeradorPDF extends GeradorArquivos{
     @Override
-    public void gerar(Path arquivoDeSaida, Path diretorioDosMD) {
+    public void gerar(Path arquivoDeSaida, Ebook ebook) {
         try (var writer = new PdfWriter(Files.newOutputStream(arquivoDeSaida));
              var pdf = new PdfDocument(writer);
              var pdfDocument = new Document(pdf)) {
@@ -26,12 +26,12 @@ public class GeradorPDF extends GeradorArquivos{
             //TODO: definir título e autor para o livro
             pdf.getDocumentInfo().setTitle("Livro");
             pdf.getDocumentInfo().setAuthor("Autor");
-            List<String> renderizar = RenderizadorMarkdown.renderizar(diretorioDosMD);
-            renderizar.forEach(arquivoMD -> {
+
+            ebook.getCapitulos().forEach(arquivoMD -> {
                     try {
 
 
-                        List<IElement> convertToElements = HtmlConverter.convertToElements(arquivoMD);
+                        List<IElement> convertToElements = HtmlConverter.convertToElements(arquivoMD.getHtml());
 
                         if (pdf.getNumberOfPages() == 0) {
                             pdf.addNewPage();
@@ -43,7 +43,8 @@ public class GeradorPDF extends GeradorArquivos{
                         }
 
                         // TODO: usar título do capítulo
-                        PdfOutline chapterOutline = rootOutline.addOutline("Capítulo");
+                        String tituloCapitulo = arquivoMD.getTitulo();
+                        PdfOutline chapterOutline = rootOutline.addOutline(tituloCapitulo);
                         chapterOutline.addDestination(PdfExplicitDestination.createFit(pdf.getLastPage()));
 
                         for (IElement element : convertToElements) {
@@ -58,7 +59,7 @@ public class GeradorPDF extends GeradorArquivos{
 
                 });
             } catch (IOException ex) {
-                throw new IllegalStateException("Erro tentando encontrar arquivos .md em " + diretorioDosMD.toAbsolutePath(), ex);
+                throw new IllegalStateException("Erro tentando encontrar arquivos .md em " + ebook, ex);
             }
     }
 }
