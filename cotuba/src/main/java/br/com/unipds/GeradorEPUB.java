@@ -32,48 +32,10 @@ public class GeradorEPUB extends GeradorArquivos{
             epub.getMetadata().addAuthor(new Author("Autor"));
 
             boolean[] ehPrimeiroCapitulo = {true};
-
-            PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:**/*.md");
-            try (Stream<Path> streamMDs = Files.list(diretorioDosMD)) {
-                List<Path> arquivosMD = streamMDs
-                        .filter(matcher::matches)
-                        .sorted()
-                        .toList();
-
-                if (arquivosMD.isEmpty()) {
-                    throw new IllegalStateException("Não foram encontrados capítulos (arquivos .md) no diretório: " + diretorioDosMD.toAbsolutePath());
-                }
-
-                arquivosMD.forEach(arquivoMD -> {
-                    Parser parser = Parser.builder().build();
-                    Node document = null;
-                    try {
-                        document = parser.parseReader(Files.newBufferedReader(arquivoMD));
-                        document.accept(new AbstractVisitor() {
-                            @Override
-                            public void visit(Heading heading) {
-                                if (heading.getLevel() == 1) {
-                                    // capítulo
-                                    String tituloDoCapitulo = ((Text) heading.getFirstChild()).getLiteral();
-                                    // TODO: usar título do capítulo
-                                } else if (heading.getLevel() == 2) {
-                                    // seção
-                                } else if (heading.getLevel() == 3) {
-                                    // título
-                                }
-                            }
-
-                        });
-                    } catch (Exception ex) {
-                        throw new IllegalStateException("Erro ao fazer parse do arquivo " + arquivoMD, ex);
-                    }
-
-                    try {
-                        HtmlRenderer renderer = HtmlRenderer.builder().build();
-                        String html = renderer.render(document);
-
-                        // TODO: usar título do capítulo
-                        String epubHtml = """
+            List<String> htmls = RenderizadorMarkdown.renderizar(diretorioDosMD);
+            htmls.forEach(html->{
+                // TODO: usar título do capítulo
+                String epubHtml = """
                                           <html xmlns="http://www.w3.org/1999/xhtml">
                                             <head>
                                               <title>Capítulo</title>
@@ -83,21 +45,16 @@ public class GeradorEPUB extends GeradorArquivos{
                                             </body>
                                           </html>
                                         """.formatted(html);
-                        var chapter = new Resource(epubHtml.getBytes(), MediatypeService.XHTML);
-                        epub.addSection("Capítulo", chapter);
+                var chapter = new Resource(epubHtml.getBytes(), MediatypeService.XHTML);
+                epub.addSection("Capítulo", chapter);
 
-                        if (ehPrimeiroCapitulo[0]) {
-                            epub.getGuide().addReference(new GuideReference(chapter, "text", "Start Reading"));
-                            ehPrimeiroCapitulo[0] = false;
-                        }
+                if (ehPrimeiroCapitulo[0]) {
+                    epub.getGuide().addReference(new GuideReference(chapter, "text", "Start Reading"));
+                    ehPrimeiroCapitulo[0] = false;
+                }
 
-                    } catch (Exception ex) {
-                        throw new IllegalStateException("Erro ao renderizar para HTML o arquivo " + arquivoMD, ex);
-                    }
-                });
-            } catch (IOException ex) {
-                throw new IllegalStateException("Erro tentando encontrar arquivos .md em " + diretorioDosMD.toAbsolutePath(), ex);
-            }
+            });
+
 
             var epubWriter = new EpubWriter();
 
