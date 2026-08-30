@@ -18,7 +18,6 @@ public class Main {
 
 
         LeitorOpcoes leitorOpcoes = new LeitorOpcoes();
-        CommandLine cmd = leitorOpcoes.ler(args);
 
         Path diretorioDosMD;
         String formato;
@@ -27,6 +26,7 @@ public class Main {
 
         try {
 
+            CommandLine cmd = leitorOpcoes.ler(args);
             leitorOpcoes.validarInput(cmd);
             diretorioDosMD=leitorOpcoes.getDiretorioDosMD();
             formato=leitorOpcoes.getFormato();

@@ -10,7 +10,7 @@ public abstract class GeradorArquivos {
         } else if("epub".equals(formato)) {
             return new GeradorEPUB();
         } else {
-            throw new IllegalArgumentException("Formato de saída inválido: " + formato);
+            throw new IllegalArgumentException("Formato do ebook inválido: " + formato);
         }
     }
 
