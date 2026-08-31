@@ -1,4 +1,6 @@
-package br.com.unipds;
+package br.com.unipds.dto;
+
+import br.com.unipds.FormatoEbook;
 
 import java.nio.file.Path;
 

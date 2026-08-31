@@ -1,7 +1,8 @@
 package br.com.unipds.cli;
 
 import br.com.unipds.FormatoEbook;
-import br.com.unipds.ParametrosCotubaDTO;
+import br.com.unipds.dto.ParametrosCotubaDTO;
+import jakarta.enterprise.context.ApplicationScoped;
 import org.apache.commons.cli.*;
 
 import java.io.File;
@@ -10,7 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
-
+@ApplicationScoped
 public class LeitorOpcoes {
 
     private Path diretorioDosMD;

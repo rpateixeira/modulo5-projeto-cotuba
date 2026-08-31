@@ -1,7 +1,10 @@
 package br.com.unipds;
 
 import br.com.unipds.cli.LeitorOpcoes;
+import br.com.unipds.dto.ParametrosCotubaDTO;
 import br.com.unipds.service.CotubaService;
+import jakarta.enterprise.inject.se.SeContainer;
+import jakarta.enterprise.inject.se.SeContainerInitializer;
 import org.apache.commons.cli.CommandLine;
 
 public class Main {
@@ -19,14 +22,14 @@ public class Main {
         LeitorOpcoes leitorOpcoes = new LeitorOpcoes();
 
         boolean modoVerboso = leitorOpcoes.isModoVerboso();
-
-        try {
+        SeContainerInitializer initializer = SeContainerInitializer.newInstance();
+        try (SeContainer container = initializer.initialize()) {
 
             CommandLine cmd = leitorOpcoes.ler(args);
             ParametrosCotubaDTO parametrosCotuba = leitorOpcoes.validarInput(cmd);
 
             modoVerboso=parametrosCotuba.isModoVerboso();
-            CotubaService cotubaService = new CotubaService();
+            CotubaService cotubaService = container.select(CotubaService.class).get();
             cotubaService.executar(parametrosCotuba);
 
             System.out.println("Arquivo gerado com sucesso: " + parametrosCotuba.getArquivoDeSaida());
