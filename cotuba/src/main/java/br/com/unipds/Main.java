@@ -4,9 +4,6 @@ import br.com.unipds.cli.LeitorOpcoes;
 import br.com.unipds.service.CotubaService;
 import org.apache.commons.cli.CommandLine;
 
-import java.nio.file.Path;
-import java.util.List;
-
 public class Main {
 
     void main(String[] args) {

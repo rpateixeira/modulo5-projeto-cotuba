@@ -94,35 +94,7 @@ public class LeitorOpcoes {
         return parametrosCotuba;
     }
 
-    public Path getDiretorioDosMD() {
-        return diretorioDosMD;
-    }
-
-    public void setDiretorioDosMD(Path diretorioDosMD) {
-        this.diretorioDosMD = diretorioDosMD;
-    }
-
-    public FormatoEbook getFormato() {
-        return formato;
-    }
-
-    public void setFormato(FormatoEbook formato) {
-        this.formato = formato;
-    }
-
-    public Path getArquivoDeSaida() {
-        return arquivoDeSaida;
-    }
-
-    public void setArquivoDeSaida(Path arquivoDeSaida) {
-        this.arquivoDeSaida = arquivoDeSaida;
-    }
-
     public boolean isModoVerboso() {
         return modoVerboso;
-    }
-
-    public void setModoVerboso(boolean modoVerboso) {
-        this.modoVerboso = modoVerboso;
     }
 }

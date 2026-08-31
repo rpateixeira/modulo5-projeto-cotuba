@@ -13,6 +13,7 @@ import org.junit.jupiter.api.io.TempDir;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -24,6 +25,7 @@ class MainIntegrationTest {
     Path diretorioDosMd;
 
     private Path arquivoMd;
+    private Path arquivoProperties;
 
     // Utilitários para capturar o System.err nativamente
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
@@ -32,11 +34,19 @@ class MainIntegrationTest {
     @BeforeEach
     void setUp() throws Exception {
         // Redireciona a saída de erro para conseguirmos validar nos testes
-        System.setErr(new PrintStream(errContent));
+        System.setErr(new PrintStream(errContent, true, StandardCharsets.UTF_8));
 
         // Cria o arquivo de teste
         arquivoMd = diretorioDosMd.resolve("01-introducao.md");
-        Files.writeString(arquivoMd, "# Capítulo Teste\n\nEste é um conteúdo de um arquivo Markdown.");
+        Files.writeString(arquivoMd, "# Capítulo Teste\n\nEste é um conteúdo de um arquivo Markdown.",
+                StandardCharsets.UTF_8);
+
+        // O ebook.properties é obrigatório para a geração do PDF/EPUB
+        arquivoProperties = diretorioDosMd.resolve("ebook.properties");
+        Files.writeString(arquivoProperties, """
+                cotuba.ebook.titulo=Ebook de Teste
+                cotuba.ebook.autor=Autor de Teste
+                """, StandardCharsets.UTF_8);
     }
 
     @AfterEach
@@ -60,6 +70,9 @@ class MainIntegrationTest {
         assertThat(arquivoSaida).exists().isRegularFile();
 
         try (PdfDocument pdfDoc = new PdfDocument(new PdfReader(arquivoSaida.toFile()))) {
+            assertThat(pdfDoc.getDocumentInfo().getTitle()).isEqualTo("Ebook de Teste");
+            assertThat(pdfDoc.getDocumentInfo().getAuthor()).isEqualTo("Autor de Teste");
+
             String textoDaPagina = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1));
             assertThat(textoDaPagina)
                     .contains("Capítulo Teste")
@@ -84,8 +97,10 @@ class MainIntegrationTest {
         EpubReader epubReader = new EpubReader();
         Book epubLido = epubReader.readEpub(Files.newInputStream(arquivoSaida));
 
+        assertThat(epubLido.getTitle()).isEqualTo("Ebook de Teste");
+
         byte[] dadosDoHtml = epubLido.getSpine().getResource(0).getData();
-        String htmlDoCapitulo = new String(dadosDoHtml);
+        String htmlDoCapitulo = new String(dadosDoHtml, StandardCharsets.UTF_8);
 
         assertThat(htmlDoCapitulo)
                 .contains("<h1>Capítulo Teste</h1>")
