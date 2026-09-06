@@ -1,5 +1,6 @@
 package br.com.unipds;
 
+import br.com.unipds.support.FormatoGeradorArquivos;
 import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfOutline;
@@ -10,12 +11,14 @@ import com.itextpdf.layout.element.AreaBreak;
 import com.itextpdf.layout.element.IBlockElement;
 import com.itextpdf.layout.element.IElement;
 import com.itextpdf.layout.properties.AreaBreakType;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-
+@ApplicationScoped
+@FormatoGeradorArquivos(FormatoEbook.PDF)
 public class GeradorPDF extends GeradorArquivos{
     @Override
     public void gerar(Path arquivoDeSaida, Ebook ebook) {

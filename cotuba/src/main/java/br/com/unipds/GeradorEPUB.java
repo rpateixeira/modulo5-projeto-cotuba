@@ -1,5 +1,7 @@
 package br.com.unipds;
 
+import br.com.unipds.support.FormatoGeradorArquivos;
+import jakarta.enterprise.context.ApplicationScoped;
 import nl.siegmann.epublib.domain.Author;
 import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.domain.GuideReference;
@@ -10,8 +12,9 @@ import nl.siegmann.epublib.service.MediatypeService;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 
+@ApplicationScoped
+@FormatoGeradorArquivos(FormatoEbook.EPUB)
 public class GeradorEPUB extends GeradorArquivos{
     @Override
     public void gerar(Path arquivoDeSaida, Ebook ebook) {
