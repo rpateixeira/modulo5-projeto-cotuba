@@ -1,10 +1,10 @@
 package br.com.unipds.cotuba.adapters.out;
 
-import br.com.unipds.cotuba.plugin.CotubaPlugin;
-import br.com.unipds.cotuba.ports.out.RenderizadorMarkdown;
 import br.com.unipds.cotuba.domain.Capitulo;
 import br.com.unipds.cotuba.domain.CapituloBuilder;
 import br.com.unipds.cotuba.domain.Markdown;
+import br.com.unipds.cotuba.plugin.CotubaPluginAposRenderizacao;
+import br.com.unipds.cotuba.ports.out.RenderizadorMarkdown;
 import br.com.unipds.repository.RepositorioMarkdowns;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -55,7 +55,7 @@ public class RenderizadorMarkdownCommonMark implements RenderizadorMarkdown {
             });
             HtmlRenderer renderer = HtmlRenderer.builder().build();
             String render = renderer.render(document);
-            for(CotubaPlugin cotubaPlugin : ServiceLoader.load(CotubaPlugin.class)){
+            for(CotubaPluginAposRenderizacao cotubaPlugin : ServiceLoader.load(CotubaPluginAposRenderizacao.class)){
                 var htlmProcessado= cotubaPlugin.aposRenderizacao(render);
                 if(htlmProcessado!=null && !htlmProcessado.isBlank()){
                     render=htlmProcessado;

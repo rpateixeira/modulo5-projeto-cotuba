@@ -1,15 +1,15 @@
 package br.com.unipds.service;
 
 
+import br.com.unipds.cotuba.domain.Capitulo;
 import br.com.unipds.cotuba.domain.Ebook;
-import br.com.unipds.cotuba.plugin.CotubaPlugin;
+import br.com.unipds.cotuba.domain.EbookBuilder;
+import br.com.unipds.cotuba.dto.ParametrosCotubaDTO;
+import br.com.unipds.cotuba.plugin.CotubaPluginAposGeracao;
 import br.com.unipds.cotuba.ports.in.CotubaUserCase;
 import br.com.unipds.cotuba.ports.out.GeradorArquivos;
 import br.com.unipds.cotuba.ports.out.LeitorPropriedadesEbook;
 import br.com.unipds.cotuba.ports.out.RenderizadorMarkdown;
-import br.com.unipds.cotuba.domain.Capitulo;
-import br.com.unipds.cotuba.domain.EbookBuilder;
-import br.com.unipds.cotuba.dto.ParametrosCotubaDTO;
 import br.com.unipds.support.FormatoGeradorArquivosFilter;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Any;
@@ -49,7 +49,7 @@ public class CotubaService implements CotubaUserCase {
         }
         Ebook build = ebook.build();
         gerador.get().gerar(parametrosCotuba.arquivoDeSaida(), build);
-        for(CotubaPlugin cotubaPlugin : ServiceLoader.load(CotubaPlugin.class)){
+        for(CotubaPluginAposGeracao cotubaPlugin : ServiceLoader.load(CotubaPluginAposGeracao.class)){
             cotubaPlugin.aposGeracao(build);
         }
         //GeradorArquivos.getInstance(parametrosCotuba.getFormato()).gerar(parametrosCotuba.getArquivoDeSaida(), ebook);
