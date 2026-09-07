@@ -1,7 +1,6 @@
-package br.com.unipds;
+package br.com.unipds.cotuba.cli;
 
-import br.com.unipds.cli.LeitorOpcoes;
-import br.com.unipds.dto.ParametrosCotubaDTO;
+import br.com.unipds.cotuba.dto.ParametrosCotubaDTO;
 import br.com.unipds.service.CotubaService;
 import jakarta.enterprise.inject.se.SeContainer;
 import jakarta.enterprise.inject.se.SeContainerInitializer;
@@ -16,7 +15,7 @@ public class Main {
         }
     }
 
-    int executar(String[] args) {
+    public int executar(String[] args) {
 
 
         LeitorOpcoes leitorOpcoes = new LeitorOpcoes();

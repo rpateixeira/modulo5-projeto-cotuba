@@ -1,6 +1,6 @@
 package br.com.unipds.support;
 
-import br.com.unipds.FormatoEbook;
+import br.com.unipds.cotuba.domain.FormatoEbook;
 import jakarta.inject.Qualifier;
 
 import java.lang.annotation.Retention;

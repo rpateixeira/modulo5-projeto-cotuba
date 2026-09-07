@@ -1,6 +1,6 @@
-package br.com.unipds.dto;
+package br.com.unipds.cotuba.dto;
 
-import br.com.unipds.FormatoEbook;
+import br.com.unipds.cotuba.domain.FormatoEbook;
 
 import java.nio.file.Path;
 

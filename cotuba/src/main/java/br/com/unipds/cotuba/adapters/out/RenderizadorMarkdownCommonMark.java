@@ -1,5 +1,9 @@
-package br.com.unipds;
+package br.com.unipds.cotuba.adapters.out;
 
+import br.com.unipds.cotuba.ports.out.RenderizadorMarkdown;
+import br.com.unipds.cotuba.domain.Capitulo;
+import br.com.unipds.cotuba.domain.CapituloBuilder;
+import br.com.unipds.cotuba.domain.Markdown;
 import br.com.unipds.repository.RepositorioMarkdowns;
 import jakarta.inject.Inject;
 import org.commonmark.node.AbstractVisitor;
@@ -9,13 +13,8 @@ import org.commonmark.node.Text;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 
-import java.io.IOException;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.PathMatcher;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class RenderizadorMarkdownCommonMark implements RenderizadorMarkdown {
 

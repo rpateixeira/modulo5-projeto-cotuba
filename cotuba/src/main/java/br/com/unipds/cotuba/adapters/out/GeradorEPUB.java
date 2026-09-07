@@ -1,5 +1,8 @@
-package br.com.unipds;
+package br.com.unipds.cotuba.adapters.out;
 
+import br.com.unipds.cotuba.domain.Ebook;
+import br.com.unipds.cotuba.domain.FormatoEbook;
+import br.com.unipds.cotuba.ports.out.GeradorArquivos;
 import br.com.unipds.support.FormatoGeradorArquivos;
 import jakarta.enterprise.context.ApplicationScoped;
 import nl.siegmann.epublib.domain.Author;
@@ -15,7 +18,7 @@ import java.nio.file.Path;
 
 @ApplicationScoped
 @FormatoGeradorArquivos(FormatoEbook.EPUB)
-public class GeradorEPUB extends GeradorArquivos{
+public class GeradorEPUB extends GeradorArquivos {
     @Override
     public void gerar(Path arquivoDeSaida, Ebook ebook) {
         try {

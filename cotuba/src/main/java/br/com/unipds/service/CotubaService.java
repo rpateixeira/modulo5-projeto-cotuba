@@ -1,7 +1,12 @@
 package br.com.unipds.service;
 
-import br.com.unipds.*;
-import br.com.unipds.dto.ParametrosCotubaDTO;
+
+import br.com.unipds.cotuba.ports.out.GeradorArquivos;
+import br.com.unipds.cotuba.ports.out.LeitorPropriedadesEbook;
+import br.com.unipds.cotuba.ports.out.RenderizadorMarkdown;
+import br.com.unipds.cotuba.domain.Capitulo;
+import br.com.unipds.cotuba.domain.EbookBuilder;
+import br.com.unipds.cotuba.dto.ParametrosCotubaDTO;
 import br.com.unipds.support.FormatoGeradorArquivosFilter;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Any;

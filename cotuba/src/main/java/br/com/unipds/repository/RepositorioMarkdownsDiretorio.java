@@ -1,6 +1,6 @@
 package br.com.unipds.repository;
 
-import br.com.unipds.Markdown;
+import br.com.unipds.cotuba.domain.Markdown;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.io.IOException;

@@ -1,11 +1,8 @@
-package br.com.unipds;
+package br.com.unipds.cotuba.domain;
 
 import io.soabase.recordbuilder.core.RecordBuilder;
 import org.jmolecules.ddd.annotation.Entity;
 import org.jmolecules.ddd.annotation.Identity;
-
-import javax.management.StringValueExp;
-import java.nio.file.Path;
 
 @Entity
 @RecordBuilder

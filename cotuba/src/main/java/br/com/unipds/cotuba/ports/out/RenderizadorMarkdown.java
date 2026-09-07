@@ -1,4 +1,6 @@
-package br.com.unipds;
+package br.com.unipds.cotuba.ports.out;
+
+import br.com.unipds.cotuba.domain.Capitulo;
 
 import java.nio.file.Path;
 import java.util.List;

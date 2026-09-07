@@ -1,5 +1,8 @@
-package br.com.unipds;
+package br.com.unipds.cotuba.adapters.out;
 
+import br.com.unipds.cotuba.domain.Ebook;
+import br.com.unipds.cotuba.domain.FormatoEbook;
+import br.com.unipds.cotuba.ports.out.GeradorArquivos;
 import br.com.unipds.support.FormatoGeradorArquivos;
 import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -19,7 +22,7 @@ import java.nio.file.Path;
 import java.util.List;
 @ApplicationScoped
 @FormatoGeradorArquivos(FormatoEbook.PDF)
-public class GeradorPDF extends GeradorArquivos{
+public class GeradorPDF extends GeradorArquivos {
     @Override
     public void gerar(Path arquivoDeSaida, Ebook ebook) {
         try (var writer = new PdfWriter(Files.newOutputStream(arquivoDeSaida));

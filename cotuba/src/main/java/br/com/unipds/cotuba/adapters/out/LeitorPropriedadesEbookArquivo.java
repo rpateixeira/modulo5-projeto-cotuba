@@ -1,4 +1,7 @@
-package br.com.unipds;
+package br.com.unipds.cotuba.adapters.out;
+
+import br.com.unipds.cotuba.domain.EbookBuilder;
+import br.com.unipds.cotuba.ports.out.LeitorPropriedadesEbook;
 
 import java.io.IOException;
 import java.io.Reader;
