@@ -30,7 +30,8 @@ public class RepositorioMarkdownsDiretorio implements RepositorioMarkdowns{
 
                 try {
                     String conteudo = Files.readString(arquivoMD);
-                    return new Markdown(conteudo, arquivoMD);
+                    String nomeArquivo=arquivoMD.getFileName().toString();
+                    return new Markdown(conteudo, nomeArquivo);
                 } catch (IOException ex) {
                     throw new IllegalStateException("Erro ao ler arquivo: " + arquivoMD, ex);
                 }

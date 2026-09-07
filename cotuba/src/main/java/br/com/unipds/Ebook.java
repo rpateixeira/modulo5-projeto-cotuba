@@ -1,13 +1,17 @@
 package br.com.unipds;
 
 import io.soabase.recordbuilder.core.RecordBuilder;
+import org.jmolecules.ddd.annotation.AggregateRoot;
+import org.jmolecules.ddd.annotation.Identity;
 
 import java.nio.file.Path;
 import java.util.List;
+
+@AggregateRoot
 @RecordBuilder
 public record Ebook
 (
-      String titulo,
+      @Identity String titulo,
       String autor,
       FormatoEbook formato,
       List<Capitulo> capitulos,

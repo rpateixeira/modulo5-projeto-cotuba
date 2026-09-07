@@ -33,7 +33,7 @@ public class RenderizadorMarkdownCommonMark implements RenderizadorMarkdown {
             Parser parser = Parser.builder().build();
             Node document = parser.parse(markdown.conteudo());
             var capitulo = CapituloBuilder.builder();
-            capitulo.arquivoMarkdown(markdown.arquivo());
+            //capitulo.arquivoMarkdown(markdown.nome());
             capitulo.markdown(markdown);
             document.accept(new AbstractVisitor() {
                 @Override

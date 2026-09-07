@@ -57,7 +57,7 @@ public class GeradorPDF extends GeradorArquivos{
                         pdfDocument.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
                     } catch (Exception ex) {
-                        throw new IllegalStateException("Erro ao renderizar para HTML o arquivo " + capitulo.arquivoMarkdown(), ex);
+                        throw new IllegalStateException("Erro ao renderizar para HTML o arquivo " + capitulo.markdown().nome(), ex);
                     }
 
                 });
