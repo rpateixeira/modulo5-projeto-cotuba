@@ -21,16 +21,16 @@ import java.util.List;
 @FormatoGeradorArquivos(FormatoEbook.PDF)
 public class GeradorPDF extends GeradorArquivos{
     @Override
-    public void gerar(Path arquivoDeSaida, EbookBuilder ebook) {
+    public void gerar(Path arquivoDeSaida, Ebook ebook) {
         try (var writer = new PdfWriter(Files.newOutputStream(arquivoDeSaida));
              var pdf = new PdfDocument(writer);
              var pdfDocument = new Document(pdf)) {
 
             //TODO: definir título e autor para o livro
-            pdf.getDocumentInfo().setTitle(ebook.build().titulo());
-            pdf.getDocumentInfo().setAuthor(ebook.build().autor());
+            pdf.getDocumentInfo().setTitle(ebook.titulo());
+            pdf.getDocumentInfo().setAuthor(ebook.autor());
 
-            ebook.build().capitulos().forEach(capitulo -> {
+            ebook.capitulos().forEach(capitulo -> {
                     try {
 
 
