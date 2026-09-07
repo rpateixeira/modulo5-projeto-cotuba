@@ -1,4 +1,4 @@
-package br.com.unipds.cotuba.cli;
+package br.com.unipds.cotuba.adapters.in.cli;
 
 import br.com.unipds.cotuba.domain.FormatoEbook;
 import br.com.unipds.cotuba.dto.ParametrosCotubaDTO;

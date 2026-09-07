@@ -1,6 +1,7 @@
 package br.com.unipds.service;
 
 
+import br.com.unipds.cotuba.ports.in.CotubaUserCase;
 import br.com.unipds.cotuba.ports.out.GeradorArquivos;
 import br.com.unipds.cotuba.ports.out.LeitorPropriedadesEbook;
 import br.com.unipds.cotuba.ports.out.RenderizadorMarkdown;
@@ -18,7 +19,7 @@ import java.util.List;
 
 @Service
 @ApplicationScoped
-public class CotubaService {
+public class CotubaService implements CotubaUserCase {
 
     private final RenderizadorMarkdown renderizadorMarkdown;
     private final LeitorPropriedadesEbook leitorPropriedadesEbook;

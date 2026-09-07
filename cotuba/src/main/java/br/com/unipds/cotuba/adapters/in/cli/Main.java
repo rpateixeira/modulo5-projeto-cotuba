@@ -1,7 +1,7 @@
-package br.com.unipds.cotuba.cli;
+package br.com.unipds.cotuba.adapters.in.cli;
 
 import br.com.unipds.cotuba.dto.ParametrosCotubaDTO;
-import br.com.unipds.service.CotubaService;
+import br.com.unipds.cotuba.ports.in.CotubaUserCase;
 import jakarta.enterprise.inject.se.SeContainer;
 import jakarta.enterprise.inject.se.SeContainerInitializer;
 import org.apache.commons.cli.CommandLine;
@@ -28,7 +28,7 @@ public class Main {
             ParametrosCotubaDTO parametrosCotuba = leitorOpcoes.validarInput(cmd);
 
             modoVerboso=parametrosCotuba.modoVerboso();
-            CotubaService cotubaService = container.select(CotubaService.class).get();
+            CotubaUserCase cotubaService = container.select(CotubaUserCase.class).get();
             cotubaService.executar(parametrosCotuba);
 
             System.out.println("Arquivo gerado com sucesso: " + parametrosCotuba.arquivoDeSaida());
