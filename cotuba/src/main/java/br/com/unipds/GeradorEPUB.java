@@ -17,19 +17,19 @@ import java.nio.file.Path;
 @FormatoGeradorArquivos(FormatoEbook.EPUB)
 public class GeradorEPUB extends GeradorArquivos{
     @Override
-    public void gerar(Path arquivoDeSaida, Ebook ebook) {
+    public void gerar(Path arquivoDeSaida, EbookBuilder ebook) {
         try {
             var epub = new Book();
 
             //TODO: definir título e autor para o livro
-            epub.getMetadata().addTitle(ebook.getTitulo());
-            epub.getMetadata().addAuthor(new Author(ebook.getAutor()));
+            epub.getMetadata().addTitle(ebook.titulo());
+            epub.getMetadata().addAuthor(new Author(ebook.autor()));
 
             boolean[] ehPrimeiroCapitulo = {true};
 
-            ebook.getCapitulos().forEach(html->{
+            ebook.build().capitulos().forEach(html->{
                 // TODO: usar título do capítulo
-                String tituloDoCapitulo = html.getTitulo();
+                String tituloDoCapitulo = html.titulo();
                 String epubHtml = """
                                           <html xmlns="http://www.w3.org/1999/xhtml">
                                             <head>
@@ -39,7 +39,7 @@ public class GeradorEPUB extends GeradorArquivos{
                                               %s
                                             </body>
                                           </html>
-                                        """.formatted(tituloDoCapitulo,html.getHtml());
+                                        """.formatted(tituloDoCapitulo,html.html());
                 var chapter = new Resource(epubHtml.getBytes(), MediatypeService.XHTML);
                 epub.addSection(tituloDoCapitulo, chapter);
 

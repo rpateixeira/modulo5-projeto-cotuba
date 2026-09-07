@@ -14,13 +14,13 @@ import java.util.List;
 public class GeradorHTML extends GeradorArquivos {
 
     @Override
-    public void gerar(Path arquivoDeSaida, Ebook ebook) {
+    public void gerar(Path arquivoDeSaida, EbookBuilder ebook) {
         try {
             // O arquivoDeSaida é tratado como o diretório onde os HTMLs serão escritos.
             Path diretorioDeSaida = resolverDiretorioDeSaida(arquivoDeSaida);
             Files.createDirectories(diretorioDeSaida);
 
-            List<Capitulo> capitulos = ebook.getCapitulos();
+            List<Capitulo> capitulos = ebook.build().capitulos();
             StringBuilder itensDoSumario = new StringBuilder();
 
             for (int i = 0; i < capitulos.size(); i++) {
@@ -38,12 +38,12 @@ public class GeradorHTML extends GeradorArquivos {
                         .append("</a></li>\n");
 
                 // Escreve o arquivo HTML do capítulo
-                String htmlDoCapitulo = montarPaginaDoCapitulo(tituloCapitulo, capitulo.getHtml());
+                String htmlDoCapitulo = montarPaginaDoCapitulo(tituloCapitulo, capitulo.html());
                 Files.writeString(diretorioDeSaida.resolve(nomeArquivo), htmlDoCapitulo, StandardCharsets.UTF_8);
             }
 
             // Escreve o sumário (index.html) com os links para cada capítulo
-            String sumario = montarSumario(ebook.getTitulo(), itensDoSumario.toString());
+            String sumario = montarSumario(ebook.titulo(), itensDoSumario.toString());
             Files.writeString(diretorioDeSaida.resolve("index.html"), sumario, StandardCharsets.UTF_8);
 
         } catch (IOException ex) {
@@ -64,7 +64,7 @@ public class GeradorHTML extends GeradorArquivos {
     }
 
     private String tituloDoCapitulo(Capitulo capitulo, int indice) {
-        String titulo = capitulo.getTitulo();
+        String titulo = capitulo.titulo();
         if (titulo != null && !titulo.isBlank()) {
             return titulo;
         }

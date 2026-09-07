@@ -21,20 +21,20 @@ import java.util.List;
 @FormatoGeradorArquivos(FormatoEbook.PDF)
 public class GeradorPDF extends GeradorArquivos{
     @Override
-    public void gerar(Path arquivoDeSaida, Ebook ebook) {
+    public void gerar(Path arquivoDeSaida, EbookBuilder ebook) {
         try (var writer = new PdfWriter(Files.newOutputStream(arquivoDeSaida));
              var pdf = new PdfDocument(writer);
              var pdfDocument = new Document(pdf)) {
 
             //TODO: definir título e autor para o livro
-            pdf.getDocumentInfo().setTitle(ebook.getTitulo());
-            pdf.getDocumentInfo().setAuthor(ebook.getAutor());
+            pdf.getDocumentInfo().setTitle(ebook.build().titulo());
+            pdf.getDocumentInfo().setAuthor(ebook.build().autor());
 
-            ebook.getCapitulos().forEach(arquivoMD -> {
+            ebook.build().capitulos().forEach(capitulo -> {
                     try {
 
 
-                        List<IElement> convertToElements = HtmlConverter.convertToElements(arquivoMD.getHtml());
+                        List<IElement> convertToElements = HtmlConverter.convertToElements(capitulo.html());
 
                         if (pdf.getNumberOfPages() == 0) {
                             pdf.addNewPage();
@@ -46,7 +46,7 @@ public class GeradorPDF extends GeradorArquivos{
                         }
 
                         // TODO: usar título do capítulo
-                        String tituloCapitulo = arquivoMD.getTitulo();
+                        String tituloCapitulo = capitulo.titulo();
                         PdfOutline chapterOutline = rootOutline.addOutline(tituloCapitulo);
                         chapterOutline.addDestination(PdfExplicitDestination.createFit(pdf.getLastPage()));
 
@@ -57,7 +57,7 @@ public class GeradorPDF extends GeradorArquivos{
                         pdfDocument.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
                     } catch (Exception ex) {
-                        throw new IllegalStateException("Erro ao renderizar para HTML o arquivo " + arquivoMD, ex);
+                        throw new IllegalStateException("Erro ao renderizar para HTML o arquivo " + capitulo.arquivoMarkdown(), ex);
                     }
 
                 });

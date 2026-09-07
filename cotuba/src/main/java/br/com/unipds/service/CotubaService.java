@@ -26,10 +26,10 @@ public class CotubaService {
     public void executar(ParametrosCotubaDTO parametrosCotuba) {
         List<Capitulo> renderizar = renderizadorMarkdown.renderizar(parametrosCotuba.getDiretorioDosMD());
 
-        var ebook = new Ebook();
-        ebook.setCapitulos(renderizar);
-        ebook.setFormato(parametrosCotuba.getFormato());
-        ebook.setArquivoDeSaida(parametrosCotuba.getArquivoDeSaida());
+        var ebook =  EbookBuilder.builder();
+        ebook.capitulos(renderizar);
+        ebook.formato(parametrosCotuba.getFormato());
+        ebook.arquivoDeSaida(parametrosCotuba.getArquivoDeSaida());
         leitorPropriedadesEbook.ler(parametrosCotuba.getDiretorioDosMD(), ebook);
 
         Instance<GeradorArquivos> gerador = geradorArquivos.select(FormatoGeradorArquivosFilter.of(parametrosCotuba.getFormato()));

@@ -10,7 +10,7 @@ import java.util.Properties;
 public class LeitorPropriedadesEbookArquivo implements LeitorPropriedadesEbook {
 
     @Override
-    public void ler(Path diretorioMD, Ebook ebook) {
+    public void ler(Path diretorioMD, EbookBuilder ebook) {
 
         Path arquivoProperties = diretorioMD.resolve("ebook.properties");
 
@@ -34,8 +34,8 @@ public class LeitorPropriedadesEbookArquivo implements LeitorPropriedadesEbook {
         String autor = properties.getProperty(propriedadeAutor);
         validarPropriedade(autor, propriedadeAutor);
 
-        ebook.setTitulo(titulo);
-        ebook.setAutor(autor);
+        ebook.titulo(titulo);
+        ebook.autor(autor);
     }
 
     private static void validarPropriedade(String valor, String propriedade) {

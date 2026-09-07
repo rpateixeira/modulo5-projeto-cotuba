@@ -6,7 +6,7 @@ public abstract class GeradorArquivos {
 
 
 
-    public abstract void gerar(Path arquivoDeSaida, Ebook ebook);
+    public abstract void gerar(Path arquivoDeSaida, EbookBuilder ebook);
 
 
 }
