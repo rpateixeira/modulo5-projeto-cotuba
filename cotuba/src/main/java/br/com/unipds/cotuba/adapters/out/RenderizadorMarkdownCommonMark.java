@@ -6,6 +6,7 @@ import br.com.unipds.cotuba.domain.Capitulo;
 import br.com.unipds.cotuba.domain.CapituloBuilder;
 import br.com.unipds.cotuba.domain.Markdown;
 import br.com.unipds.repository.RepositorioMarkdowns;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.commonmark.node.AbstractVisitor;
 import org.commonmark.node.Heading;
@@ -18,6 +19,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.ServiceLoader;
 
+@ApplicationScoped
 public class RenderizadorMarkdownCommonMark implements RenderizadorMarkdown {
 
 

@@ -2,6 +2,7 @@ package br.com.unipds.cotuba.adapters.out;
 
 import br.com.unipds.cotuba.domain.EbookBuilder;
 import br.com.unipds.cotuba.ports.out.LeitorPropriedadesEbook;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -10,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
 
+@ApplicationScoped
 public class LeitorPropriedadesEbookArquivo implements LeitorPropriedadesEbook {
 
     @Override
