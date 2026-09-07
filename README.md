@@ -75,3 +75,70 @@ Você pode usar a flag `-o` para definir o nome exato e o caminho do arquivo ger
 ```bash
 java -jar target/cotuba-1.0-SNAPSHOT.jar -d ../apostila-design -o apostila-design.pdf
 ```
+
+---
+
+## 🔌 Plugins
+
+O Cotuba possui um mecanismo de **plugins** baseado no **Java SPI (`ServiceLoader`)**. Qualquer módulo que implemente a interface `br.com.unipds.cotuba.plugin.CotubaPlugin` e a registre em `META-INF/services/br.com.unipds.cotuba.plugin.CotubaPlugin` é carregado automaticamente pelo Cotuba, desde que esteja presente no **classpath**.
+
+A interface expõe dois pontos de extensão:
+
+| Método | Quando é chamado | Uso |
+| :--- | :--- | :--- |
+| `String aposRenderizacao(String html)` | Após cada capítulo Markdown ser renderizado em HTML | Transformar/enriquecer o HTML (ex.: injetar CSS). Retorne o HTML modificado. |
+| `void aposGeracao(Ebook ebook)` | Após o ebook final ser gerado | Executar ações finais sobre o ebook (ex.: gerar relatórios/estatísticas). |
+
+### Plugins disponíveis
+
+| Plugin | Módulo | O que faz |
+| :--- | :--- | :--- |
+| **Tema CSS** | `tema-css` | Injeta um tema CSS no HTML dos capítulos (estiliza títulos `h1`/`h2`), personalizando a aparência do ebook gerado. |
+| **Estatísticas do Ebook** | `estatisticas-ebook` | Após a geração, analisa o conteúdo de todos os capítulos e imprime no console a contagem de ocorrências de cada palavra. |
+
+### Como compilar os plugins
+
+Cada plugin depende do artefato `cotuba`. Primeiro instale o `cotuba` no repositório Maven local e depois empacote os plugins:
+
+```bash
+# 1. Instalar o cotuba no repositório local (necessário para os plugins)
+mvn -f cotuba/pom.xml clean install
+
+# 2. Empacotar os plugins
+mvn -f tema-css/pom.xml clean package
+mvn -f estatisticas-ebook/pom.xml clean package
+```
+
+### Como executar o Cotuba com plugins
+
+> ⚠️ **Importante:** os plugins **não são executáveis** — são bibliotecas carregadas via classpath.
+> Além disso, `java -jar cotuba.jar` **ignora** o `-cp`/`-classpath`. Portanto, para usar plugins **não** utilize `-jar`: coloque todos os `.jar` no classpath e invoque a classe `Main` explicitamente.
+
+**Executando com os dois plugins** (a partir da raiz do projeto):
+
+```bash
+java -cp "cotuba/target/cotuba-1.0-SNAPSHOT.jar:tema-css/target/tema-css-1.0-SNAPSHOT.jar:estatisticas-ebook/target/estatisticas-ebook-1.0-SNAPSHOT.jar" \
+  br.com.unipds.cotuba.adapters.in.cli.Main -d apostila-design -o apostila-design.pdf
+```
+
+Para usar **apenas um** plugin, basta incluir somente o `.jar` desejado no classpath. Exemplo apenas com o tema CSS:
+
+```bash
+java -cp "cotuba/target/cotuba-1.0-SNAPSHOT.jar:tema-css/target/tema-css-1.0-SNAPSHOT.jar" \
+  br.com.unipds.cotuba.adapters.in.cli.Main -d apostila-design -f epub
+```
+
+> 💡 No **Windows**, troque o separador de classpath `:` por `;`.
+
+### Como criar seu próprio plugin
+
+1. Crie um módulo com dependência no artefato `cotuba`.
+2. Implemente a interface `br.com.unipds.cotuba.plugin.CotubaPlugin`.
+3. Registre a implementação criando o arquivo:
+   `src/main/resources/META-INF/services/br.com.unipds.cotuba.plugin.CotubaPlugin`
+   contendo o nome totalmente qualificado da sua classe, por exemplo:
+   ```
+   br.com.seupacote.MeuPlugin
+   ```
+4. Empacote (`mvn package`) e inclua o `.jar` gerado no classpath ao executar o Cotuba.
+
