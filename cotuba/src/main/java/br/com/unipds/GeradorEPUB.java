@@ -17,7 +17,7 @@ import java.nio.file.Path;
 @FormatoGeradorArquivos(FormatoEbook.EPUB)
 public class GeradorEPUB extends GeradorArquivos{
     @Override
-    public void gerar(Path arquivoDeSaida, EbookBuilder ebook) {
+    public void gerar(Path arquivoDeSaida, Ebook ebook) {
         try {
             var epub = new Book();
 
@@ -27,7 +27,7 @@ public class GeradorEPUB extends GeradorArquivos{
 
             boolean[] ehPrimeiroCapitulo = {true};
 
-            ebook.build().capitulos().forEach(html->{
+            ebook.capitulos().forEach(html->{
                 // TODO: usar título do capítulo
                 String tituloDoCapitulo = html.titulo();
                 String epubHtml = """

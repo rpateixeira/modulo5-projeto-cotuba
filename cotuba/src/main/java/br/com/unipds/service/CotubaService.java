@@ -36,7 +36,7 @@ public class CotubaService {
         if (gerador.isUnsatisfied()) {
             throw new IllegalArgumentException("Formato do ebook inválido: " + parametrosCotuba.formato().name().toLowerCase());
         }
-        gerador.get().gerar(parametrosCotuba.arquivoDeSaida(), ebook);
+        gerador.get().gerar(parametrosCotuba.arquivoDeSaida(), ebook.build());
         //GeradorArquivos.getInstance(parametrosCotuba.getFormato()).gerar(parametrosCotuba.getArquivoDeSaida(), ebook);
 
     }

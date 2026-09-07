@@ -14,13 +14,13 @@ import java.util.List;
 public class GeradorHTML extends GeradorArquivos {
 
     @Override
-    public void gerar(Path arquivoDeSaida, EbookBuilder ebook) {
+    public void gerar(Path arquivoDeSaida, Ebook ebook) {
         try {
             // O arquivoDeSaida é tratado como o diretório onde os HTMLs serão escritos.
             Path diretorioDeSaida = resolverDiretorioDeSaida(arquivoDeSaida);
             Files.createDirectories(diretorioDeSaida);
 
-            List<Capitulo> capitulos = ebook.build().capitulos();
+            List<Capitulo> capitulos = ebook.capitulos();
             StringBuilder itensDoSumario = new StringBuilder();
 
             for (int i = 0; i < capitulos.size(); i++) {
