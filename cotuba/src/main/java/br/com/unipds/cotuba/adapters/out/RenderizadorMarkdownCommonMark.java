@@ -1,5 +1,6 @@
 package br.com.unipds.cotuba.adapters.out;
 
+import br.com.unipds.cotuba.plugin.CotubaPlugin;
 import br.com.unipds.cotuba.ports.out.RenderizadorMarkdown;
 import br.com.unipds.cotuba.domain.Capitulo;
 import br.com.unipds.cotuba.domain.CapituloBuilder;
@@ -15,6 +16,7 @@ import org.commonmark.renderer.html.HtmlRenderer;
 
 import java.nio.file.Path;
 import java.util.List;
+import java.util.ServiceLoader;
 
 public class RenderizadorMarkdownCommonMark implements RenderizadorMarkdown {
 
@@ -51,6 +53,12 @@ public class RenderizadorMarkdownCommonMark implements RenderizadorMarkdown {
             });
             HtmlRenderer renderer = HtmlRenderer.builder().build();
             String render = renderer.render(document);
+            for(CotubaPlugin cotubaPlugin : ServiceLoader.load(CotubaPlugin.class)){
+                var htlmProcessado= cotubaPlugin.aposRenderizacao(render);
+                if(htlmProcessado!=null && !htlmProcessado.isBlank()){
+                    render=htlmProcessado;
+                }
+            }
             capitulo.html(render);
             return capitulo.build();
         }).toList();

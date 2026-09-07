@@ -1,6 +1,8 @@
 package br.com.unipds.service;
 
 
+import br.com.unipds.cotuba.domain.Ebook;
+import br.com.unipds.cotuba.plugin.CotubaPlugin;
 import br.com.unipds.cotuba.ports.in.CotubaUserCase;
 import br.com.unipds.cotuba.ports.out.GeradorArquivos;
 import br.com.unipds.cotuba.ports.out.LeitorPropriedadesEbook;
@@ -16,6 +18,7 @@ import jakarta.inject.Inject;
 import org.jmolecules.ddd.annotation.Service;
 
 import java.util.List;
+import java.util.ServiceLoader;
 
 @Service
 @ApplicationScoped
@@ -44,7 +47,11 @@ public class CotubaService implements CotubaUserCase {
         if (gerador.isUnsatisfied()) {
             throw new IllegalArgumentException("Formato do ebook inválido: " + parametrosCotuba.formato().name().toLowerCase());
         }
-        gerador.get().gerar(parametrosCotuba.arquivoDeSaida(), ebook.build());
+        Ebook build = ebook.build();
+        gerador.get().gerar(parametrosCotuba.arquivoDeSaida(), build);
+        for(CotubaPlugin cotubaPlugin : ServiceLoader.load(CotubaPlugin.class)){
+            cotubaPlugin.aposGeracao(build);
+        }
         //GeradorArquivos.getInstance(parametrosCotuba.getFormato()).gerar(parametrosCotuba.getArquivoDeSaida(), ebook);
 
     }
