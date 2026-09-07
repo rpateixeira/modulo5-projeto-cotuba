@@ -28,11 +28,11 @@ public class Main {
             CommandLine cmd = leitorOpcoes.ler(args);
             ParametrosCotubaDTO parametrosCotuba = leitorOpcoes.validarInput(cmd);
 
-            modoVerboso=parametrosCotuba.isModoVerboso();
+            modoVerboso=parametrosCotuba.modoVerboso();
             CotubaService cotubaService = container.select(CotubaService.class).get();
             cotubaService.executar(parametrosCotuba);
 
-            System.out.println("Arquivo gerado com sucesso: " + parametrosCotuba.getArquivoDeSaida());
+            System.out.println("Arquivo gerado com sucesso: " + parametrosCotuba.arquivoDeSaida());
             return 0;
 
         } catch (Exception ex) {

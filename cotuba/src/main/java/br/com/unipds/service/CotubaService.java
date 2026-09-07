@@ -24,19 +24,19 @@ public class CotubaService {
     }
 
     public void executar(ParametrosCotubaDTO parametrosCotuba) {
-        List<Capitulo> renderizar = renderizadorMarkdown.renderizar(parametrosCotuba.getDiretorioDosMD());
+        List<Capitulo> renderizar = renderizadorMarkdown.renderizar(parametrosCotuba.diretorioDosMD());
 
         var ebook =  EbookBuilder.builder();
         ebook.capitulos(renderizar);
-        ebook.formato(parametrosCotuba.getFormato());
-        ebook.arquivoDeSaida(parametrosCotuba.getArquivoDeSaida());
-        leitorPropriedadesEbook.ler(parametrosCotuba.getDiretorioDosMD(), ebook);
+        ebook.formato(parametrosCotuba.formato());
+        ebook.arquivoDeSaida(parametrosCotuba.arquivoDeSaida());
+        leitorPropriedadesEbook.ler(parametrosCotuba.diretorioDosMD(), ebook);
 
-        Instance<GeradorArquivos> gerador = geradorArquivos.select(FormatoGeradorArquivosFilter.of(parametrosCotuba.getFormato()));
+        Instance<GeradorArquivos> gerador = geradorArquivos.select(FormatoGeradorArquivosFilter.of(parametrosCotuba.formato()));
         if (gerador.isUnsatisfied()) {
-            throw new IllegalArgumentException("Formato do ebook inválido: " + parametrosCotuba.getFormato().name().toLowerCase());
+            throw new IllegalArgumentException("Formato do ebook inválido: " + parametrosCotuba.formato().name().toLowerCase());
         }
-        gerador.get().gerar(parametrosCotuba.getArquivoDeSaida(), ebook);
+        gerador.get().gerar(parametrosCotuba.arquivoDeSaida(), ebook);
         //GeradorArquivos.getInstance(parametrosCotuba.getFormato()).gerar(parametrosCotuba.getArquivoDeSaida(), ebook);
 
     }

@@ -87,12 +87,8 @@ public class LeitorOpcoes {
         }
 
         modoVerboso = cmd.hasOption("verbose");
-        var parametrosCotuba = new ParametrosCotubaDTO();
-        parametrosCotuba.setDiretorioDosMD(diretorioDosMD);
-        parametrosCotuba.setFormato(formato);
-        parametrosCotuba.setArquivoDeSaida(arquivoDeSaida);
-        parametrosCotuba.setModoVerboso(modoVerboso);
-        return parametrosCotuba;
+
+        return new ParametrosCotubaDTO(diretorioDosMD, formato, arquivoDeSaida, modoVerboso);
     }
 
     public boolean isModoVerboso() {
