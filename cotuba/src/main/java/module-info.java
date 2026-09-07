@@ -14,7 +14,7 @@
  *       {@code epublib.core} são <b>automatic modules</b> (derivados do nome do JAR).</li>
  * </ul>
  */
-open module br.com.unipds.cotuba {
+open module br.com.unipds {
 
     // ----- Dependências (module path) -----
     // O weld-se-shaded embute (shade) as APIs jakarta.enterprise.* e jakarta.inject.*,
@@ -41,6 +41,7 @@ open module br.com.unipds.cotuba {
     // ----- API exposta para os módulos de plugin (tema-css, estatisticas-ebook) -----
     exports br.com.unipds.cotuba.domain;
     exports br.com.unipds.cotuba.plugin;
+    exports br.com.unipds.cotuba.adapters.out;
 
     // ----- Pontos de extensão carregados via ServiceLoader -----
     uses br.com.unipds.cotuba.plugin.CotubaPluginAposGeracao;
