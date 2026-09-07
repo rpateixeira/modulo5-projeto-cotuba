@@ -7,9 +7,11 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Any;
 import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
+import org.jmolecules.ddd.annotation.Service;
 
 import java.util.List;
 
+@Service
 @ApplicationScoped
 public class CotubaService {
 
